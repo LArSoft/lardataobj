@@ -120,7 +120,7 @@ void WireTestCustomConstructors() {
   BOOST_CHECK_EQUAL(sigROIlist.n_ranges(), 2U);
   size_t index = 0;
   for (auto sample: sigROIlist) {
-    if(sample != 0) {BOOST_CHECK((sample == (float) index) )};
+    if(sample != 0) {BOOST_CHECK((sample == (float) index) );}
     ++index;
   } // for
 
