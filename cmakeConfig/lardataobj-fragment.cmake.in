@@ -1,0 +1,6 @@
+find_package(Boost REQUIRED COMPONENTS date_time filesystem graph program_options
+  regex system unit_test_framework)
+find_package( ROOT REQUIRED COMPONENTS Core Physics Matrix GenVector)
+find_package( larcoreobj REQUIRED)
+find_package( larcorealg REQUIRED)
+find_package( nusimdata REQUIRED)
