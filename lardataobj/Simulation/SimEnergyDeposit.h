@@ -140,6 +140,10 @@ namespace sim
     // spherical coordinates.
     geo::Length_t StepLength() const { return ( endPos - startPos ).R(); }
 
+    // add a setter for trackID, so it can be modified without copying whole thing
+    // e.g. if we drop particles and want to set to a parent
+    void setTrackID(int tid) { trackID = tid; }
+
     // Just in case someone wants to store sim::SimEnergyDeposit
     // objects in a sorted container, define a sort function. Note
     // that the ideal sort order is dependent of the analysis you're
