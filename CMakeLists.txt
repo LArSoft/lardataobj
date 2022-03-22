@@ -8,7 +8,7 @@
 
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
-project(lardataobj VERSION 09.03.05 LANGUAGES CXX)
+project(lardataobj VERSION 09.03.05.01 LANGUAGES CXX)
 
 # cetbuildtools contains our cmake modules
 find_package(cetbuildtools REQUIRED)
