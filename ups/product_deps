@@ -249,7 +249,7 @@ fcldir	product_dir	job
 product		version		qual	flags		<table_format=2>
 larcorealg	v09_06_05	-
 larcoreobj	v09_05_02	-
-nusimdata	v1_25_02	-
+nusimdata	v1_25_02_03	-
 cetmodules	v3_13_02	-	only_for_build
 end_product_list
 ####################################
