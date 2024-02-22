@@ -16,11 +16,15 @@
             },
             "lardataobj_ADD_NOARCH_DIRS_INIT" : {
                "type" : "INTERNAL",
-               "value" : "FHICL_DIR"
+               "value" : "FHICL_DIR;FW_DIR"
             },
             "lardataobj_FHICL_DIR_INIT" : {
                "type" : "STRING",
                "value" : "job"
+            },
+            "lardataobj_FW_DIR_INIT" : {
+               "type" : "STRING",
+               "value" : "compatibility"
             }
          },
          "description" : "Configuration settings translated from ups/product_deps",
