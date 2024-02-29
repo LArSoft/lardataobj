@@ -248,9 +248,9 @@ fwdir   product_dir    compatibility
 #
 ####################################
 product		version		qual	flags		<table_format=2>
-larcorealg	v09_90_00rc1	-
-larcoreobj	v09_90_00rc1	-
-nusimdata	v1_28_02	-
+larcorealg	v09_90_00rc2	-
+larcoreobj	v09_90_00rc2	-
+nusimdata	v1_28_03	-
 cetmodules	v3_24_01	-	only_for_build
 end_product_list
 ####################################
