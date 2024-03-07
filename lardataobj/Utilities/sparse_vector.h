@@ -2420,7 +2420,7 @@ typename lar::sparse_vector<T>::const_iterator& lar::sparse_vector<T>::const_ite
 
 template <typename T>
 typename lar::sparse_vector<T>::const_iterator::const_reference
-  lar::sparse_vector<T>::const_iterator::operator*() const
+lar::sparse_vector<T>::const_iterator::operator*() const
 {
   // no container, no idea what to do
   if (!cont) throw std::out_of_range("iterator to no sparse vector");
@@ -2448,8 +2448,8 @@ typename lar::sparse_vector<T>::const_iterator& lar::sparse_vector<T>::const_ite
 } // lar::sparse_vector<T>::const_iterator::operator+=()
 
 template <typename T>
-inline typename lar::sparse_vector<T>::const_iterator& lar::sparse_vector<T>::const_iterator::
-operator-=(difference_type delta)
+inline typename lar::sparse_vector<T>::const_iterator&
+lar::sparse_vector<T>::const_iterator::operator-=(difference_type delta)
 {
   return this->operator+=(-delta);
 }
@@ -2466,8 +2466,8 @@ typename lar::sparse_vector<T>::const_iterator lar::sparse_vector<T>::const_iter
 } // lar::sparse_vector<T>::const_iterator::operator+()
 
 template <typename T>
-inline typename lar::sparse_vector<T>::const_iterator lar::sparse_vector<T>::const_iterator::
-operator-(difference_type delta) const
+inline typename lar::sparse_vector<T>::const_iterator
+lar::sparse_vector<T>::const_iterator::operator-(difference_type delta) const
 {
   return this->operator+(-delta);
 }

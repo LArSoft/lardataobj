@@ -15,7 +15,10 @@
 
 namespace {
 
-  double sqr(double v) { return v * v; }
+  double sqr(double v)
+  {
+    return v * v;
+  }
 
   double spacePointDistance(recob::SpacePoint const& a, recob::SpacePoint const& b)
   {

@@ -42,6 +42,9 @@ namespace recob {
 
   //----------------------------------------------------------------------
   // less than operator - basically sort in order of index into main collection
-  bool operator<(const PFParticle& a, const PFParticle& b) { return a.Self() < b.Self(); }
+  bool operator<(const PFParticle& a, const PFParticle& b)
+  {
+    return a.Self() < b.Self();
+  }
 
 } // namespace

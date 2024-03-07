@@ -85,7 +85,10 @@ namespace recob {
   {}
 
   //----------------------------------------------------------------------
-  bool operator<(const OpFlash& a, const OpFlash& b) { return a.Time() < b.Time(); }
+  bool operator<(const OpFlash& a, const OpFlash& b)
+  {
+    return a.Time() < b.Time();
+  }
 
   //----------------------------------------------------------------------
   double OpFlash::TotalPE() const

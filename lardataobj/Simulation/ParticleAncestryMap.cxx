@@ -7,9 +7,15 @@
 
 namespace sim {
 
-  void ParticleAncestryMap::SetMap(const std::map<int, std::set<int>>& map) { fParticleMap = map; }
+  void ParticleAncestryMap::SetMap(const std::map<int, std::set<int>>& map)
+  {
+    fParticleMap = map;
+  }
 
-  std::map<int, std::set<int>> const& ParticleAncestryMap::GetMap() const { return fParticleMap; }
+  std::map<int, std::set<int>> const& ParticleAncestryMap::GetMap() const
+  {
+    return fParticleMap;
+  }
 
   bool ParticleAncestryMap::HasDroppedDescendants(const int trackid) const
   {

@@ -2,5 +2,8 @@
 
 namespace recob {
 
-  Slice::Slice() { fID = -999; }
+  Slice::Slice()
+  {
+    fID = -999;
+  }
 }

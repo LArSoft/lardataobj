@@ -59,9 +59,15 @@ namespace recob {
   };
 
   /// Comparison of a space point with an ID, for sorting and lookup.
-  inline bool operator<(SpacePoint const& s, SpacePoint::ID_t id) { return s.ID() < id; }
+  inline bool operator<(SpacePoint const& s, SpacePoint::ID_t id)
+  {
+    return s.ID() < id;
+  }
   /// Comparison of a space point with an ID, for sorting and lookup.
-  inline bool operator<(SpacePoint::ID_t id, SpacePoint const& s) { return id < s.ID(); }
+  inline bool operator<(SpacePoint::ID_t id, SpacePoint const& s)
+  {
+    return id < s.ID();
+  }
 
 }
 

@@ -37,7 +37,10 @@ namespace raw {
   }
 
   //----------------------------------------------------------------------
-  OpDetPulse::OpDetPulse(unsigned short OpChannel) { fOpChannel = OpChannel; }
+  OpDetPulse::OpDetPulse(unsigned short OpChannel)
+  {
+    fOpChannel = OpChannel;
+  }
 
   //----------------------------------------------------------------------
   int OpDetPulse::Integral(unsigned short startbin, unsigned short endbin)

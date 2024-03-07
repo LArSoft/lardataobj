@@ -17,7 +17,10 @@
 namespace recob {
 
   //----------------------------------------------------------------------------
-  Seed::Seed() { fIsValid = false; }
+  Seed::Seed()
+  {
+    fIsValid = false;
+  }
 
   //----------------------------------------------------------------------------
   Seed::Seed(double* Pt, double* Dir)
@@ -52,7 +55,10 @@ namespace recob {
   }
 
   //----------------------------------------------------------------------------
-  bool Seed::IsValid() const { return fIsValid; }
+  bool Seed::IsValid() const
+  {
+    return fIsValid;
+  }
 
   //----------------------------------------------------------------------------
   Seed Seed::Reverse()
@@ -65,7 +71,10 @@ namespace recob {
   }
 
   //----------------------------------------------------------------------------
-  void Seed::SetValidity(bool Validity) { fIsValid = Validity; }
+  void Seed::SetValidity(bool Validity)
+  {
+    fIsValid = Validity;
+  }
 
   //----------------------------------------------------------------------------
   void Seed::GetDirection(double* rDir, double* rDirErr) const

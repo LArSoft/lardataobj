@@ -77,7 +77,10 @@ namespace recob {
   {}
 
   //----------------------------------------------------------------------
-  bool operator<(const OpHit& a, const OpHit& b) { return a.PE() < b.PE(); }
+  bool operator<(const OpHit& a, const OpHit& b)
+  {
+    return a.PE() < b.PE();
+  }
 
   //----------------------------------------------------------------------
   std::ostream& operator<<(std::ostream& out, OpHit const& hit)

@@ -38,16 +38,28 @@ namespace raw {
   {}
 
   //-------------------------------------------------------------------------
-  double BeamInfo::get_tor101() const { return tor101; }
+  double BeamInfo::get_tor101() const
+  {
+    return tor101;
+  }
 
   //-------------------------------------------------------------------------
-  double BeamInfo::get_tortgt() const { return tortgt; }
+  double BeamInfo::get_tortgt() const
+  {
+    return tortgt;
+  }
 
   //-------------------------------------------------------------------------
-  double BeamInfo::get_trtgtd() const { return trtgtd; }
+  double BeamInfo::get_trtgtd() const
+  {
+    return trtgtd;
+  }
 
   //-------------------------------------------------------------------------
-  long long int BeamInfo::get_t_ms() const { return t_ms; }
+  long long int BeamInfo::get_t_ms() const
+  {
+    return t_ms;
+  }
 
   //-------------------------------------------------------------------------
   void BeamInfo::SetTOR101(double val)
@@ -71,7 +83,10 @@ namespace raw {
   }
 
   //-------------------------------------------------------------------------
-  void BeamInfo::SetT_MS(long long int val) { t_ms = val; }
+  void BeamInfo::SetT_MS(long long int val)
+  {
+    t_ms = val;
+  }
 
   void BeamInfo::Set(std::string device, double val)
   {

@@ -811,7 +811,7 @@ namespace actions {
 
   // fun with C++17:
   template <typename T>
-  explicit Scale(size_t pos, T factor)->Scale<T>;
+  explicit Scale(size_t pos, T factor) -> Scale<T>;
 
   template <typename T>
   class ScaleAll : public BaseAction<T> {
@@ -848,7 +848,7 @@ namespace actions {
   }; // ScaleAll<>
 
   template <typename T>
-  explicit ScaleAll(T factor)->ScaleAll<T>;
+  explicit ScaleAll(T factor) -> ScaleAll<T>;
 
   template <typename T>
   class SetElement : public BaseAction<T> {

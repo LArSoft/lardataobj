@@ -38,7 +38,10 @@ namespace raw {
     uint16_t fFlags;
   };
 
-  inline void RDTimeStamp::SetTimeStamp(ULong64_t tstamp) { fTimeStamp = tstamp; }
+  inline void RDTimeStamp::SetTimeStamp(ULong64_t tstamp)
+  {
+    fTimeStamp = tstamp;
+  }
   inline void RDTimeStamp::SetTimeStamp_Low(uint32_t tslow)
   {
     fTimeStamp &= 0xFFFFFFFF00000000;
@@ -49,11 +52,26 @@ namespace raw {
     fTimeStamp &= 0xFFFFFFFF;
     fTimeStamp |= ((ULong64_t)tshigh << 32);
   }
-  inline ULong64_t RDTimeStamp::GetTimeStamp() const { return fTimeStamp; }
-  inline uint32_t RDTimeStamp::GetTimeStamp_Low() const { return fTimeStamp & 0xFFFFFFFF; }
-  inline uint32_t RDTimeStamp::GetTimeStamp_High() const { return fTimeStamp >> 32; }
-  inline void RDTimeStamp::SetFlags(uint16_t flags) { fFlags = flags; }
-  inline uint16_t RDTimeStamp::GetFlags() const { return fFlags; }
+  inline ULong64_t RDTimeStamp::GetTimeStamp() const
+  {
+    return fTimeStamp;
+  }
+  inline uint32_t RDTimeStamp::GetTimeStamp_Low() const
+  {
+    return fTimeStamp & 0xFFFFFFFF;
+  }
+  inline uint32_t RDTimeStamp::GetTimeStamp_High() const
+  {
+    return fTimeStamp >> 32;
+  }
+  inline void RDTimeStamp::SetFlags(uint16_t flags)
+  {
+    fFlags = flags;
+  }
+  inline uint16_t RDTimeStamp::GetFlags() const
+  {
+    return fFlags;
+  }
 
 }
 

@@ -125,11 +125,20 @@ namespace recob {
   std::ostream& operator<<(std::ostream& o, const Edge& a);
 
   /// Comparison operator: strict ordering of edge by ID.
-  inline bool operator<(const Edge& a, const Edge& b) { return a.ID() < b.ID(); }
+  inline bool operator<(const Edge& a, const Edge& b)
+  {
+    return a.ID() < b.ID();
+  }
   /// Comparison operator: strict ordering of edge by ID.
-  inline bool operator<(const Edge& e, Edge::ID_t id) { return e.ID() < id; }
+  inline bool operator<(const Edge& e, Edge::ID_t id)
+  {
+    return e.ID() < id;
+  }
   /// Comparison operator: strict ordering of edge by ID.
-  inline bool operator<(Edge::ID_t id, const Edge& e) { return id < e.ID(); }
+  inline bool operator<(Edge::ID_t id, const Edge& e)
+  {
+    return id < e.ID();
+  }
 
 } // namespace recob
 

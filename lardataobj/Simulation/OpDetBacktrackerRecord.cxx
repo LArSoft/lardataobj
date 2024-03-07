@@ -33,14 +33,17 @@ namespace sim {
   {}
 
   //-------------------------------------------------
-  SDP::SDP(sim::SDP const& sdp, int offset) : SDP(sdp) { trackID += offset; }
+  SDP::SDP(sim::SDP const& sdp, int offset) : SDP(sdp)
+  {
+    trackID += offset;
+  }
 
   // Default constructor
   //-------------------------------------------------
   OpDetBacktrackerRecord::OpDetBacktrackerRecord()
     : iOpDetNum(
         -1) //set an impossible channel number in the case where this is called without an opticalchannel.
-    //The reason for doing this is to follow the structure of SimChannel, which uses kBogusChannel
+  //The reason for doing this is to follow the structure of SimChannel, which uses kBogusChannel
   {}
 
   //-------------------------------------------------

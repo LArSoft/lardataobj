@@ -68,6 +68,9 @@ namespace recob {
   //----------------------------------------------------------------------
   // < operator.
   //
-  bool operator<(const Event& a, const Event& b) { return a.Energy() < b.Energy(); }
+  bool operator<(const Event& a, const Event& b)
+  {
+    return a.Energy() < b.Energy();
+  }
 
 }
