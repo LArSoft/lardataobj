@@ -48,7 +48,8 @@ void CheckHit(recob::Hit const& hit,
               float rms,
               float peak_amplitude,
               float sigma_peak_amplitude,
-              float summedADC,
+              float ROIsummedADC,
+	      float HitsummedADC,
               float hit_integral,
               float hit_sigma_integral,
               short int multiplicity,
@@ -124,7 +125,7 @@ void CheckHit(recob::Hit const& hit,
   BOOST_TEST(hit.RMS() == rms);
 
   // - charge
-  BOOST_TEST(hit.SummedADC() == summedADC);
+  BOOST_TEST(hit.ROISummedADC() == ROIsummedADC);
   BOOST_TEST(hit.Integral() == hit_integral);
   BOOST_TEST(hit.SigmaIntegral() == hit_sigma_integral);
 
@@ -157,7 +158,8 @@ void HitTestDefaultConstructor()
   float rms = 0.0;
   float peak_amplitude = 0.0;
   float sigma_peak_amplitude = -1.0;
-  float summedADC = 0.0;
+  float ROIsummedADC = 0.0;
+  float HitsummedADC = 0.0;
   float hit_integral = 0.0;
   float hit_sigma_integral = -1.0;
   short int multiplicity = 0;
@@ -184,7 +186,8 @@ void HitTestDefaultConstructor()
            rms,
            peak_amplitude,
            sigma_peak_amplitude,
-           summedADC,
+           ROIsummedADC,
+	   HitsummedADC,
            hit_integral,
            hit_sigma_integral,
            multiplicity,
@@ -216,8 +219,9 @@ void HitTestCustomConstructors()
   float rms = signal.size() / 2.7;
   float peak_amplitude = signal[signal.size() / 2] - 0.3;
   float sigma_peak_amplitude = 2.3;
-  float summedADC = std::accumulate(signal.begin(), signal.end(), 0.0);
-  float hit_integral = summedADC * 0.97;
+  float ROIsummedADC = std::accumulate(signal.begin(), signal.end(), 0.0);
+  float HitsummedADC = std::accumulate(signal.begin(), signal.end(), 0.0); //NOT SURE WHAT IT SHOULD BE...
+  float hit_integral = ROIsummedADC * 0.97;
   float hit_sigma_integral = peak_amplitude / 10.;
   short int multiplicity = 2;
   short int local_index = 1;
@@ -239,7 +243,8 @@ void HitTestCustomConstructors()
                   rms,
                   peak_amplitude,
                   sigma_peak_amplitude,
-                  summedADC,
+                  ROIsummedADC,
+		  HitsummedADC,
                   hit_integral,
                   hit_sigma_integral,
                   multiplicity,
@@ -260,7 +265,8 @@ void HitTestCustomConstructors()
            rms,
            peak_amplitude,
            sigma_peak_amplitude,
-           summedADC,
+           ROIsummedADC,
+	   HitsummedADC,
            hit_integral,
            hit_sigma_integral,
            multiplicity,

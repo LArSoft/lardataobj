@@ -56,13 +56,11 @@ namespace recob {
     float fSigmaPeakTime;      ///< uncertainty for the signal peak, in tick units
     float fRMS;                ///< RMS of the hit shape, in tick units
     float fPeakAmplitude;      ///< the estimated amplitude of the hit at its peak, in ADC units
-    float
-      fSigmaPeakAmplitude; ///< uncertainty on estimated amplitude of the hit at its peak, in ADC units
-    float fSummedADC;      ///< the sum of calibrated ADC counts of the hit
-    float
-      fIntegral; ///< the integral under the calibrated signal waveform of the hit, in tick x ADC units
-    float
-      fSigmaIntegral; ///< the uncertainty of integral under the calibrated signal waveform of the hit, in ADC units
+    float fSigmaPeakAmplitude; ///< uncertainty on estimated amplitude of the hit at its peak, in ADC units
+    float fROISummedADC;      ///< the sum of calibrated ADC counts of the ROI 
+    float fHitSummedADC;      ///< the sum of calibrated ADC counts of the ROI 
+    float fIntegral; ///< the integral under the calibrated signal waveform of the hit, in tick x ADC units
+    float fSigmaIntegral; ///< the uncertainty of integral under the calibrated signal waveform of the hit, in ADC units
     short int fMultiplicity; ///< how many hits could this one be shared with
     short int fLocalIndex; ///< index of this hit among the Multiplicity() hits in the signal window
     float fGoodnessOfFit;  ///< how well do we believe we know this hit?
@@ -84,7 +82,8 @@ namespace recob {
        * @param rms             RMS of the hit shape
        * @param peak_amplitude  the estimated amplitude of the hit at its peak
        * @param sigma_peak_amplitude  the uncertainty on the estimated amplitude of the hit at its peak
-       * @param summedADC       the sum of calibrated ADC counts of the hit
+       * @param ROIsummedADC       the sum of calibrated ADC counts of the ROI
+       * @param HitsummedADC       the sum of calibrated ADC counts of the hit
        * @param hit_integral    the integral under the calibrated signal waveform of the hit
        * @param hit_sigma_integral uncertainty on the integral under the calibrated signal waveform of the hit
        * @param multiplicity    how many hits could this one be shared with
@@ -106,7 +105,8 @@ namespace recob {
         float rms,
         float peak_amplitude,
         float sigma_peak_amplitude,
-        float summedADC,
+        float ROIsummedADC,
+	float HitsummedADC,
         float hit_integral,
         float hit_sigma_integral,
         short int multiplicity,
@@ -141,8 +141,11 @@ namespace recob {
     /// Uncertainty on estimated amplitude of the hit at its peak, in ADC units
     float SigmaPeakAmplitude() const;
 
+    /// The sum of calibrated ADC counts of the ROI (0. by default)
+    float ROISummedADC() const;
+
     /// The sum of calibrated ADC counts of the hit (0. by default)
-    float SummedADC() const;
+    float HitSummedADC() const;
 
     /// Integral under the calibrated signal waveform of the hit, in tick x ADC units
     float Integral() const;
@@ -237,9 +240,13 @@ inline float recob::Hit::SigmaPeakAmplitude() const
 {
   return fSigmaPeakAmplitude;
 }
-inline float recob::Hit::SummedADC() const
+inline float recob::Hit::ROISummedADC() const
 {
-  return fSummedADC;
+  return fROISummedADC;
+}
+inline float recob::Hit::HitSummedADC() const
+{
+  return fHitSummedADC;
 }
 inline float recob::Hit::Integral() const
 {

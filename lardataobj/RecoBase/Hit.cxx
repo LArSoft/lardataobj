@@ -25,7 +25,8 @@ namespace recob {
     , fRMS(0.)
     , fPeakAmplitude(0.)
     , fSigmaPeakAmplitude(-1.)
-    , fSummedADC(0.)
+    , fROISummedADC(0.)
+    , fHitSummedADC(0.)
     , fIntegral(0.)
     , fSigmaIntegral(-1.)
     , fMultiplicity(0)
@@ -46,7 +47,8 @@ namespace recob {
            float rms,
            float peak_amplitude,
            float sigma_peak_amplitude,
-           float summedADC,
+           float ROIsummedADC,
+	   float HitsummedADC,
            float hit_integral,
            float hit_sigma_integral,
            short int multiplicity,
@@ -64,7 +66,8 @@ namespace recob {
     , fRMS(rms)
     , fPeakAmplitude(peak_amplitude)
     , fSigmaPeakAmplitude(sigma_peak_amplitude)
-    , fSummedADC(summedADC)
+    , fROISummedADC(ROIsummedADC)
+    , fHitSummedADC(HitsummedADC)
     , fIntegral(hit_integral)
     , fSigmaIntegral(hit_sigma_integral)
     , fMultiplicity(multiplicity)
@@ -92,7 +95,8 @@ namespace recob {
       << "\n\tAmplitude = " << std::setw(7) << std::right << hit.PeakAmplitude() << " +/- "
       << std::setw(7) << std::right << hit.SigmaPeakAmplitude() << "\tIntegral = " << std::setw(7)
       << std::right << hit.Integral() << " +/- " << std::setw(7) << std::right
-      << hit.SigmaIntegral() << "\tADCsum = " << std::setw(7) << std::right << hit.SummedADC()
+      << hit.SigmaIntegral() << "\tROIADCsum = " << std::setw(7) << std::right << hit.ROISummedADC()
+      << "\tHitADCsum = " << std::setw(7) << std::right << hit.HitSummedADC()
       << "\tMultiplicity = " << std::setw(5) << std::right << hit.LocalIndex() << " of "
       << hit.Multiplicity() << "\tGoodnessOfFit = " << std::setw(7) << std::right
       << hit.GoodnessOfFit() << " DoF = " << std::setw(7) << std::right << hit.DegreesOfFreedom()
