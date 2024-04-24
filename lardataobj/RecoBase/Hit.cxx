@@ -48,7 +48,7 @@ namespace recob {
            float peak_amplitude,
            float sigma_peak_amplitude,
            float ROIsummedADC,
-	   float HitsummedADC,
+           float HitsummedADC,
            float hit_integral,
            float hit_sigma_integral,
            short int multiplicity,

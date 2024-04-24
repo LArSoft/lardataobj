@@ -56,11 +56,14 @@ namespace recob {
     float fSigmaPeakTime;      ///< uncertainty for the signal peak, in tick units
     float fRMS;                ///< RMS of the hit shape, in tick units
     float fPeakAmplitude;      ///< the estimated amplitude of the hit at its peak, in ADC units
-    float fSigmaPeakAmplitude; ///< uncertainty on estimated amplitude of the hit at its peak, in ADC units
-    float fROISummedADC;      ///< the sum of calibrated ADC counts of the ROI 
-    float fHitSummedADC;      ///< the sum of calibrated ADC counts of the ROI 
-    float fIntegral; ///< the integral under the calibrated signal waveform of the hit, in tick x ADC units
-    float fSigmaIntegral; ///< the uncertainty of integral under the calibrated signal waveform of the hit, in ADC units
+    float
+      fSigmaPeakAmplitude; ///< uncertainty on estimated amplitude of the hit at its peak, in ADC units
+    float fROISummedADC; ///< the sum of calibrated ADC counts of the ROI
+    float fHitSummedADC; ///< the sum of calibrated ADC counts of the ROI
+    float
+      fIntegral; ///< the integral under the calibrated signal waveform of the hit, in tick x ADC units
+    float
+      fSigmaIntegral; ///< the uncertainty of integral under the calibrated signal waveform of the hit, in ADC units
     short int fMultiplicity; ///< how many hits could this one be shared with
     short int fLocalIndex; ///< index of this hit among the Multiplicity() hits in the signal window
     float fGoodnessOfFit;  ///< how well do we believe we know this hit?
@@ -106,7 +109,7 @@ namespace recob {
         float peak_amplitude,
         float sigma_peak_amplitude,
         float ROIsummedADC,
-	float HitsummedADC,
+        float HitsummedADC,
         float hit_integral,
         float hit_sigma_integral,
         short int multiplicity,
