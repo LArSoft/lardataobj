@@ -85,6 +85,14 @@
  <class name="art::Wrapper< art::Assns<raw::RDTimeStamp, raw::RawDigit, void>>"/>
  <class name="art::Wrapper< art::Assns<raw::RawDigit, raw::RDTimeStamp, void>>"/>
 
+ <class name="art::Ptr< raw::OpDetWaveform>"/>
+ <class name="std::pair< art::Ptr< raw::OpDetWaveform>, art::Ptr< raw::RDTimeStamp>>"/>
+ <class name="std::pair< art::Ptr< raw::RDTimeStamp>, art::Ptr< raw::OpDetWaveform>>"/>
+ <class name="art::Assns< raw::RDTimeStamp, raw::OpDetWaveform, void>"/>
+ <class name="art::Assns< raw::OpDetWaveform, raw::RDTimeStamp, void>"/>
+ <class name="art::Wrapper< art::Assns<raw::RDTimeStamp, raw::OpDetWaveform, void>>"/>
+ <class name="art::Wrapper< art::Assns<raw::OpDetWaveform, raw::RDTimeStamp, void>>"/>
+ 
  <ioread 
     version="[-11]" 
     sourceClass="raw::RawDigit" 
