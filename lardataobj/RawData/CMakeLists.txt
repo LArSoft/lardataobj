@@ -10,7 +10,7 @@ cet_make_library(SOURCE
   TriggerData.cxx
   LIBRARIES
   PUBLIC
-  Boost::headers
+  Boost::boost
   ROOT::Core
   larcoreobj::headers
   PRIVATE

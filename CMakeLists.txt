@@ -9,7 +9,7 @@
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
 find_package(cetmodules REQUIRED)
-project(lardataobj VERSION 09.18.02 LANGUAGES CXX)
+project(lardataobj VERSION 09.18.06 LANGUAGES CXX)
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -27,9 +27,10 @@ find_package(nusimdata REQUIRED EXPORT)
 find_package(canvas_root_io REQUIRED EXPORT)
 find_package(canvas REQUIRED EXPORT)
 find_package(messagefacility REQUIRED EXPORT)
+find_package(cetlib REQUIRED)
 find_package(cetlib_except REQUIRED EXPORT)
 
-find_package(Boost COMPONENTS HEADERS REQUIRED EXPORT)
+find_package(Boost REQUIRED EXPORT)
 find_package(ROOT COMPONENTS Core GenVector MathCore Matrix Physics REQUIRED EXPORT)
 
 find_package(larcoreobj REQUIRED EXPORT)
