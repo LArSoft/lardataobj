@@ -93,8 +93,8 @@ namespace sim {
     int NumElectrons() const { return numElectrons; }
     double ScintYieldRatio() const { return scintYieldRatio; }
     double Energy() const { return edep; }
-    geo::Point_t Start() const { return {startPos.X(), startPos.Y(), startPos.Z()}; }
-    geo::Point_t End() const { return {endPos.X(), endPos.Y(), endPos.Z()}; }
+    geo::Point_t Start() const { return startPos; }
+    geo::Point_t End() const { return endPos; }
     double Time() const { return (startTime + endTime) / 2.; }
     int TrackID() const { return trackID; }
     int OrigTrackID() const { return origTrackID; }
@@ -117,16 +117,14 @@ namespace sim {
     // Step mid-point.
     geo::Point_t MidPoint() const
     {
-      return {(startPos.X() + endPos.X()) / 2.,
-              (startPos.Y() + endPos.Y()) / 2.,
-              (startPos.Z() + endPos.Z()) / 2.};
+      return startPos + 0.5 * (endPos - startPos);
     }
     geo::Length_t MidPointX() const { return (startPos.X() + endPos.X()) / 2.; }
     geo::Length_t MidPointY() const { return (startPos.Y() + endPos.Y()) / 2.; }
     geo::Length_t MidPointZ() const { return (startPos.Z() + endPos.Z()) / 2.; }
-    geo::Length_t X() const { return (startPos.X() + endPos.X()) / 2.; }
-    geo::Length_t Y() const { return (startPos.Y() + endPos.Y()) / 2.; }
-    geo::Length_t Z() const { return (startPos.Z() + endPos.Z()) / 2.; }
+    geo::Length_t X() const { return MidPointX(); }
+    geo::Length_t Y() const { return MidPointY(); }
+    geo::Length_t Z() const { return MidPointZ(); }
     double T() const { return (startTime + endTime) / 2.; }
     double T0() const { return startTime; }
     double T1() const { return endTime; }
