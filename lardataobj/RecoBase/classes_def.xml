@@ -236,7 +236,7 @@
   <!-- io rules for types in this file -->
 
 <ioread                                                                                                                                                                                        
-      version="[16]"                                                                                                                                                                             
+      version="[-16]"                                                                                                                                                                             
       sourceClass="recob::Hit"                                                                                                                                                                   
       source="float fSummedADC;"                                                                                                                                                                
       targetClass="recob::Hit"                                                                                                                                                                   
@@ -247,18 +247,6 @@
            fROISummedADC = onfile.fSummedADC;                                                                                                                                                    
   ]]>                                                                                                                                                                                            
 </ioread>     
- <ioread                                                                                                                                                                                        
-      version="[16]"                                                                                                                                                                             
-      sourceClass="recob::Hit"                                                                                                                                                                   
-      source="float fSummedADC;"                                                                                                                                                                
-      targetClass="recob::Hit"                                                                                                                                                                   
-      target="fHitSummedADC"                                                                                                                                                                     
-      include="lardataobj/RecoBase/Hit.h"                                                                                                                                                        
-  >                                                                                                                                                                                              
-  <![CDATA[                                                                                                                                                                                      
-           fHitSummedADC = 0;                                                                                                                                                                    
-  ]]>                                                                                                                                                                                            
- </ioread> 
 
 
   <!-- recob::Vertex: schema evolution rules -->
