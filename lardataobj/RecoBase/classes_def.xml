@@ -234,6 +234,33 @@
   <class name="art::Wrapper< std::vector< std::vector<recob::TrackFitHitInfo>>>"/>
 
   <!-- io rules for types in this file -->
+
+<ioread                                                                                                                                                                                        
+      version="[16]"                                                                                                                                                                             
+      sourceClass="recob::Hit"                                                                                                                                                                   
+      source="float fSummedADC;"                                                                                                                                                                
+      targetClass="recob::Hit"                                                                                                                                                                   
+      target="fROISummedADC"                                                                                                                                                                     
+      include="lardataobj/RecoBase/Hit.h"                                                                                                                                                        
+  >                                                                                                                                                                                              
+  <![CDATA[                                                                                                                                                                                      
+           fROISummedADC = onfile.fSummedADC+5;                                                                                                                                                    
+  ]]>                                                                                                                                                                                            
+</ioread>     
+ <ioread                                                                                                                                                                                        
+      version="[16]"                                                                                                                                                                             
+      sourceClass="recob::Hit"                                                                                                                                                                   
+      source="float fSummedADC;"                                                                                                                                                                
+      targetClass="recob::Hit"                                                                                                                                                                   
+      target="fHitSummedADC"                                                                                                                                                                     
+      include="lardataobj/RecoBase/Hit.h"                                                                                                                                                        
+  >                                                                                                                                                                                              
+  <![CDATA[                                                                                                                                                                                      
+           fHitSummedADC = 0;                                                                                                                                                                    
+  ]]>                                                                                                                                                                                            
+ </ioread> 
+
+
   <!-- recob::Vertex: schema evolution rules -->
       <!-- version 15 -->
       <!-- version 14 -->
