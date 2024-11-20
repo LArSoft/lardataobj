@@ -267,8 +267,11 @@ namespace sim {
       // pick which IDE list we have to fill: new one or existing one
       std::vector<sim::IDE>* curIDEVec;
       if (itrthis == fTDCIDEs.end() || itrthis->first != tdc) {
-        fTDCIDEs.emplace_back(tdc, std::vector<sim::IDE>());
-        curIDEVec = &(fTDCIDEs.back().second);
+        //insert at the location where it should be
+        auto newitr = fTDCIDEs.insert(itrthis, {tdc, std::vector<sim::IDE>()} );
+
+        //current IDE vector should be at new position
+        curIDEVec = &(newitr->second);
       }
       else
         curIDEVec = &(itrthis->second);
