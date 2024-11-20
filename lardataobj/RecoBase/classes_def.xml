@@ -234,6 +234,21 @@
   <class name="art::Wrapper< std::vector< std::vector<recob::TrackFitHitInfo>>>"/>
 
   <!-- io rules for types in this file -->
+
+<ioread                                                                                                                                                                                        
+      version="[-16]"                                                                                                                                                                             
+      sourceClass="recob::Hit"                                                                                                                                                                   
+      source="float fSummedADC;"                                                                                                                                                                
+      targetClass="recob::Hit"                                                                                                                                                                   
+      target="fROISummedADC"                                                                                                                                                                     
+      include="lardataobj/RecoBase/Hit.h"                                                                                                                                                        
+  >                                                                                                                                                                                              
+  <![CDATA[                                                                                                                                                                                      
+           fROISummedADC = onfile.fSummedADC;                                                                                                                                                    
+  ]]>                                                                                                                                                                                            
+</ioread>     
+
+
   <!-- recob::Vertex: schema evolution rules -->
       <!-- version 15 -->
       <!-- version 14 -->
