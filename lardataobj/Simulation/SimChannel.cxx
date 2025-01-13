@@ -264,14 +264,13 @@ namespace sim {
       // find the entry from this SimChannel corresponding to the tdc from the other
       auto itrthis = findClosestTDCIDE(tdc);
 
-      // pick which IDE list we have to fill: new one or existing one
-      std::vector<sim::IDE>* curIDEVec;
+      // if not found, insert at the location where it should be
       if (itrthis == fTDCIDEs.end() || itrthis->first != tdc) {
-        fTDCIDEs.emplace_back(tdc, std::vector<sim::IDE>());
-        curIDEVec = &(fTDCIDEs.back().second);
+        itrthis = fTDCIDEs.insert(itrthis, {tdc, std::vector<sim::IDE>()});
       }
-      else
-        curIDEVec = &(itrthis->second);
+
+      // pick the IDE list we have to fill
+      std::vector<sim::IDE>* curIDEVec = &(itrthis->second);
 
       for (auto const& ide : ides) {
         curIDEVec->emplace_back(ide, offset);
