@@ -15,7 +15,7 @@
 #include <string>
 #include <utility> // std::pair
 #include <vector>
-
+#include <map> 
 namespace sim {
 
   /// Ionization photons from a Geant4 track
@@ -83,7 +83,7 @@ namespace sim {
   };                   // struct SDP
 
   /// List of energy deposits at the same time (on this Optical Detector)
-  typedef std::pair<double, std::vector<sim::SDP>> timePDclockSDP_t;
+  typedef std::pair<int, std::vector<sim::SDP>> timePDclockSDP_t;
 
   /**
    * @brief Energy deposited on a readout Optical Detector by simulated tracks
@@ -108,7 +108,8 @@ namespace sim {
     typedef timePDclockSDP_t::first_type storedTimePDclock_t;
 
     /// Type of list of energy deposits for each timePDclock with signal
-    typedef std::vector<timePDclockSDP_t> timePDclockSDPs_t;
+    // typedef std::vector<timePDclockSDP_t> timePDclockSDPs_t;
+    typedef std::map<storedTimePDclock_t, std::vector<sim::SDP>> timePDclockSDPs_t;
 
   private:
     int iOpDetNum;                     ///< OpticalDetector where the photons were detected
@@ -186,6 +187,9 @@ namespace sim {
     /// Returns the total energy on this Optical Detector in the specified iTimePDclock [MeV]
     double Energy(timePDclock_t iTimePDclock) const;
 
+    // /// Sorts the timeClockSDPs by increasing timePDclock tick
+    // void SortTimePDclockSDPs();
+
     /**
      * @brief Returns energies collected for each track within a time interval
      * @param startTimePDclock iTimePDclock tick opening the time window
@@ -262,17 +266,6 @@ namespace sim {
     {
       Dump(std::forward<Stream>(out), indent, indent);
     }
-
-  private:
-    /// Comparison functor, sorts by increasing timePDclocktick value
-    struct CompareByTimePDclock;
-
-    /// Return the iterator to the first timePDclockSDP not earlier than timePDclock
-    timePDclockSDPs_t::iterator findClosestTimePDclockSDP(storedTimePDclock_t timePDclock);
-
-    /// Return the (constant) iterator to the first timePDclockSDP not earlier than timePDclock
-    timePDclockSDPs_t::const_iterator findClosestTimePDclockSDP(
-      storedTimePDclock_t timePDclock) const;
   };
 
 } // namespace sim
