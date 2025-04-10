@@ -82,12 +82,9 @@ namespace sim {
     // the lower bound is different from the given TimePDclock, in which case
     // we need to add something for that TimePDclock
     if (itr == timePDclockSDPs.end() || timePDclockSDPs.key_comp()(rounded_time, itr->first)) {
-      timePDclockSDPs.insert({
-        rounded_time, 
-        std::vector<sim::SDP>{
-          sim::SDP(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2])
-        }
-      });
+      timePDclockSDPs.insert(
+        {rounded_time,
+         std::vector<sim::SDP>{sim::SDP(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2])}});
     }
     else { // we have that iTimePDclock already; itr points to it
 
@@ -278,7 +275,8 @@ namespace sim {
       // pick which SDP list we have to fill: new one or existing one
       std::vector<sim::SDP>* curSDPVec;
       if (itrthis == timePDclockSDPs.end() || itrthis->first != iTimePDclock) {
-        curSDPVec = &(timePDclockSDPs.insert({iTimePDclock, std::vector<sim::SDP>()}).first->second);
+        curSDPVec =
+          &(timePDclockSDPs.insert({iTimePDclock, std::vector<sim::SDP>()}).first->second);
       }
       else
         curSDPVec = &(itrthis->second);

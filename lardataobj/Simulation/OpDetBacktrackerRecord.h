@@ -12,10 +12,10 @@
 #define LARSIMOBJ_SIMULATION_OPDETBACKTRACKERRECORD_H
 
 // C/C++ standard libraries
+#include <map>
 #include <string>
 #include <utility> // std::pair
 #include <vector>
-#include <map> 
 namespace sim {
 
   /// Ionization photons from a Geant4 track
