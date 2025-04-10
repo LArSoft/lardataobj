@@ -69,7 +69,8 @@
   <version ClassVersion="11" checksum="1122283400"/>
   <version ClassVersion="10" checksum="2225942541"/>
  </class>
- <class name="sim::OpDetBacktrackerRecord" ClassVersion="11">
+ <class name="sim::OpDetBacktrackerRecord" ClassVersion="12">
+  <version ClassVersion="12" checksum="1589953796"/>
   <version ClassVersion="11" checksum="1336777815"/>
   <version ClassVersion="10" checksum="2389124613"/>
  </class>
@@ -108,8 +109,8 @@
  <class name="std::vector<sim::TDCIDE>"/>
  <class name="sim::SDP"/>
  <class name="std::vector<sim::SDP>"/>
- <class name="std::pair< double, std::vector<sim::SDP>>"/>
- <class name="std::vector< std::pair < double, std::vector<sim::SDP>>>"/>
+ <class name="std::pair< int, std::vector<sim::SDP>>"/>
+ <class name="std::map<int, std::vector<sim::SDP>>"/>
  <class name="art::Wrapper< std::vector<sim::SimPhotons>>"/>
  <class name="art::Wrapper< std::vector<sim::SimPhotonsLite>>"/>
  <class name="art::Wrapper< std::vector<sim::SimChannel>>"/>
