@@ -51,6 +51,7 @@
   <class name="std::pair< art::Ptr<recob::Hit>,        art::Ptr<recob::SpacePoint>>"/>
   <class name="std::pair< art::Ptr<recob::Hit>,        art::Ptr<recob::Vertex>>"/>
   <class name="std::pair< art::Ptr<recob::Hit>,        art::Ptr<recob::Wire>>"/>
+  <class name="std::pair< art::Ptr<recob::Hit>,        art::Ptr<recob::PFParticle>>"/>
   <class name="std::pair< art::Ptr<recob::OpFlash>,    art::Ptr<recob::Cluster>>" />
   <class name="std::pair< art::Ptr<recob::OpFlash>,    art::Ptr<recob::OpHit>>" />
   <class name="std::pair< art::Ptr<recob::OpFlash>,    art::Ptr<recob::Track>>" />
@@ -72,6 +73,7 @@
   <class name="std::pair< art::Ptr<recob::PFParticle>, art::Ptr<recob::Slice>>"/>
   <class name="std::pair< art::Ptr<recob::PFParticle>, art::Ptr<recob::SpacePoint>>"/>
   <class name="std::pair< art::Ptr<recob::PFParticle>, art::Ptr<recob::Vertex>>"/>
+  <class name="std::pair< art::Ptr<recob::PFParticle>, art::Ptr<recob::Hit>>"/>
   <class name="std::pair< art::Ptr<recob::PFParticle>, art::Ptr<larpandoraobj::PFParticleMetadata>>"/>
   <class name="std::pair< art::Ptr<recob::Seed>,       art::Ptr<recob::Hit>>"/>
   <class name="std::pair< art::Ptr<recob::Seed>,       art::Ptr<recob::PFParticle>>"/>
@@ -137,6 +139,7 @@
   <class name="art::Assns<recob::Hit,        recob::SpacePoint, void>"/>
   <class name="art::Assns<recob::Hit,        recob::Vertex,     void>"/>
   <class name="art::Assns<recob::Hit,        recob::Wire,       void>"/>
+  <class name="art::Assns<recob::Hit,        recob::PFParticle, void>"/>
   <class name="art::Assns<recob::OpFlash,    recob::Cluster,    void>"/>
   <class name="art::Assns<recob::OpFlash,    recob::OpHit,      void>"/>
   <class name="art::Assns<recob::OpFlash,    recob::Track,      void>"/>
@@ -158,6 +161,7 @@
   <class name="art::Assns<recob::PFParticle, recob::Slice,      void>"/>
   <class name="art::Assns<recob::PFParticle, recob::SpacePoint, void>"/>
   <class name="art::Assns<recob::PFParticle, recob::Vertex,     void>"/>
+  <class name="art::Assns<recob::PFParticle, recob::Hit,        void>"/>
   <class name="art::Assns<recob::PFParticle, larpandoraobj::PFParticleMetadata, void>"/>
   <class name="art::Assns<recob::Seed,       recob::Hit,        void>"/>
   <class name="art::Assns<recob::Seed,       recob::PFParticle, void>"/>
@@ -225,6 +229,7 @@
   <class name="art::Wrapper< art::Assns<recob::Hit,        recob::SpacePoint, void>>"/>
   <class name="art::Wrapper< art::Assns<recob::Hit,        recob::Vertex,     void>>"/>
   <class name="art::Wrapper< art::Assns<recob::Hit,        recob::Wire,       void>>"/>
+  <class name="art::Wrapper< art::Assns<recob::Hit,        recob::PFParticle, void>>"/>
   <class name="art::Wrapper< art::Assns<recob::OpFlash,    recob::Cluster,    void>>"/>
   <class name="art::Wrapper< art::Assns<recob::OpFlash,    recob::OpHit,      void>>"/>
   <class name="art::Wrapper< art::Assns<recob::OpFlash,    recob::Track,      void>>"/>
@@ -246,6 +251,7 @@
   <class name="art::Wrapper< art::Assns<recob::PFParticle, recob::Slice,      void>>"/>
   <class name="art::Wrapper< art::Assns<recob::PFParticle, recob::SpacePoint, void>>"/>
   <class name="art::Wrapper< art::Assns<recob::PFParticle, recob::Vertex,     void>>"/>
+  <class name="art::Wrapper< art::Assns<recob::PFParticle, recob::Hit,        void>>"/>
   <class name="art::Wrapper< art::Assns<recob::PFParticle, larpandoraobj::PFParticleMetadata, void>>"/>
   <class name="art::Wrapper< art::Assns<recob::Seed,       recob::Hit,        void>>"/>
   <class name="art::Wrapper< art::Assns<recob::Seed,       recob::PFParticle, void>>"/>
