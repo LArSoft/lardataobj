@@ -9,7 +9,8 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include <algorithm> // std::lower_bound(), std::max()
-#include <limits>    // std::numeric_limits
+#include <iostream>
+#include <limits> // std::numeric_limits
 #include <map>
 #include <stdexcept>
 #include <utility>
@@ -20,6 +21,72 @@
 
 #include "messagefacility/MessageLogger/MessageLogger.h"
 namespace sim {
+
+  void OBTRHelper::AddScintillationPhotonsToMap(
+    // std::map<timePDclock_t, std::vector<sim::SDP>> & timePDclockSDPs,
+    TrackID_t trackID,
+    timePDclock_t iTimePDclock,
+    double numberPhotons,
+    double const* xyz,
+    double energy)
+  {
+    /**
+      * The iTimePDclock from OpFastScintillation (where OpDetBacktrackerRecords originate) is done with CLHEP::ns (units of nanoseconds).
+      */
+    // look at the collection to see if the current iTimePDclock already
+    // exists, if not, add it, if so, just add a new track id to the
+    // vector, or update the information if track is already present
+
+    // no photons? no good!
+    if ((numberPhotons < std::numeric_limits<double>::epsilon()) ||
+        (energy <= std::numeric_limits<double>::epsilon())) {
+      // will throw
+      MF_LOG_ERROR("OpDetBacktrackerRecord")
+        << "AddTrackPhotons() trying to add to iTimePDclock #" << iTimePDclock << " "
+        << numberPhotons << " photons with " << energy
+        << " MeV of energy from track ID=" << trackID;
+      return;
+    } // if no photons
+
+    int rounded_time = std::round(iTimePDclock);
+
+    auto itr = fTimePDclockSDPs.lower_bound(rounded_time);
+
+    // check if this iTimePDclock value is in the vector, it is possible that
+    // the lower bound is different from the given TimePDclock, in which case
+    // we need to add something for that TimePDclock
+    if (itr == fTimePDclockSDPs.end() || fTimePDclockSDPs.key_comp()(rounded_time, itr->first)) {
+      fTimePDclockSDPs.insert(
+        {rounded_time,
+         std::vector<sim::SDP>{sim::SDP(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2])}});
+    }
+    else { // we have that iTimePDclock already; itr points to it
+
+      // loop over the SDP vector for this iTimePDclock and add the electrons
+      // to the entry with the same track id
+      for (auto& sdp : itr->second) {
+
+        if (sdp.trackID != trackID) continue;
+
+        // make a weighted average for the location information
+        double weight = sdp.numPhotons + numberPhotons;
+        sdp.x = (sdp.x * sdp.numPhotons + xyz[0] * numberPhotons) / weight;
+        sdp.y = (sdp.y * sdp.numPhotons + xyz[1] * numberPhotons) / weight;
+        sdp.z = (sdp.z * sdp.numPhotons + xyz[2] * numberPhotons) / weight;
+        sdp.numPhotons = weight;
+        sdp.energy = sdp.energy + energy;
+
+        // found the track id we wanted, so return;
+        return;
+      } // for
+
+      // if we never found the track id, then this is the first instance of
+      // the track id for this TimePDclock, so add sdp to the vector
+      itr->second.emplace_back(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2]);
+
+    } // end of else "We have that iTimePDclock already"
+
+  } // OBTRHelper::AddIonizationElectrons()
 
   //-------------------------------------------------
   SDP::SDP() //SDP stands for Scintillation Deposited Photons
@@ -49,6 +116,18 @@ namespace sim {
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum) : iOpDetNum(detNum) {}
 
   //-------------------------------------------------
+  OpDetBacktrackerRecord::OpDetBacktrackerRecord(OBTRHelper& helper) : iOpDetNum(helper.fTrackID)
+  {
+    auto& sdp_map = helper.fTimePDclockSDPs;
+    for (auto& [channel, vec] : sdp_map) {
+
+      // std::cout << "Moving SDP vector for channel " << channel << " with size " << vec.size() << std::endl;
+      timePDclockSDPs.emplace_back((double)channel, std::move(vec));
+      // std::cout << "Moved " << vec.size() << " " << timePDclockSDPs.back().second.size() << std::endl;
+    }
+  }
+
+  //-------------------------------------------------
   void OpDetBacktrackerRecord::AddScintillationPhotons(TrackID_t trackID,
                                                        timePDclock_t iTimePDclock,
                                                        double numberPhotons,
@@ -73,18 +152,23 @@ namespace sim {
       return;
     } // if no photons
 
-    int rounded_time = std::round(iTimePDclock);
+    // int rounded_time = std::round(iTimePDclock);
 
-    // auto itr = findClosestTimePDclockSDP(rounded_time);
-    auto itr = timePDclockSDPs.lower_bound(rounded_time);
+    auto itr = findClosestTimePDclockSDP(iTimePDclock);
+    // auto itr = timePDclockSDPs.lower_bound(rounded_time);
 
     // check if this iTimePDclock value is in the vector, it is possible that
     // the lower bound is different from the given TimePDclock, in which case
     // we need to add something for that TimePDclock
-    if (itr == timePDclockSDPs.end() || timePDclockSDPs.key_comp()(rounded_time, itr->first)) {
-      timePDclockSDPs.insert(
-        {rounded_time,
-         std::vector<sim::SDP>{sim::SDP(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2])}});
+    // if (itr == timePDclockSDPs.end() || timePDclockSDPs.key_comp()(rounded_time, itr->first)) {
+    //   timePDclockSDPs.insert(
+    //     {rounded_time,
+    //      std::vector<sim::SDP>{sim::SDP(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2])}});
+    if (itr == timePDclockSDPs.end() || (abs(itr->first - iTimePDclock) > .50)) {
+      //itr->first != iTimePDclock){
+      std::vector<sim::SDP> sdplist;
+      sdplist.emplace_back(trackID, numberPhotons, energy, xyz[0], xyz[1], xyz[2]);
+      timePDclockSDPs.emplace(itr, std::round(iTimePDclock), std::move(sdplist));
     }
     else { // we have that iTimePDclock already; itr points to it
 
@@ -119,8 +203,8 @@ namespace sim {
   {
     double numPhotons = 0.;
 
-    // auto itr = findClosestTimePDclockSDP(iTimePDclock);
-    auto itr = timePDclockSDPs.lower_bound(iTimePDclock);
+    auto itr = findClosestTimePDclockSDP(iTimePDclock);
+    // auto itr = timePDclockSDPs.lower_bound(iTimePDclock);
     // check to see if this iTimePDclock value is in the map
     if (itr != timePDclockSDPs.end() && itr->first == iTimePDclock) {
 
@@ -141,8 +225,8 @@ namespace sim {
   {
     double energy = 0.;
 
-    // auto itr = findClosestTimePDclockSDP(iTimePDclock);
-    auto itr = timePDclockSDPs.lower_bound(iTimePDclock);
+    auto itr = findClosestTimePDclockSDP(iTimePDclock);
+    // auto itr = timePDclockSDPs.lower_bound(iTimePDclock);
 
     // check to see if this iTimePDclock value is in the map
     if (itr != timePDclockSDPs.end() && itr->first == iTimePDclock) {
@@ -176,8 +260,8 @@ namespace sim {
     std::map<TrackID_t, sim::SDP> idToSDP;
 
     //find the lower bound for this iTimePDclock and then iterate from there
-    // auto itr = findClosestTimePDclockSDP(startTimePDclock);
-    auto itr = timePDclockSDPs.lower_bound(startTimePDclock);
+    auto itr = findClosestTimePDclockSDP(startTimePDclock);
+    // auto itr = timePDclockSDPs.lower_bound(startTimePDclock);
 
     while (itr != timePDclockSDPs.end()) {
 
@@ -268,15 +352,22 @@ namespace sim {
     std::pair<TrackID_t, TrackID_t> range_trackID(std::numeric_limits<int>::max(),
                                                   std::numeric_limits<int>::min());
 
-    for (auto const& [iTimePDclock, sdps] : channel.timePDclockSDPsMap()) {
+    // for (auto const& [iTimePDclock, sdps] : channel.timePDclockSDPsMap()) {
+    for (auto const& itr : channel.timePDclockSDPsMap()) {
 
+      auto iTimePDclock = itr.first;
+      auto const& sdps = itr.second;
       // find the entry from this OpDetBacktrackerRecord corresponding to the iTimePDclock from the other
-      auto itrthis = timePDclockSDPs.lower_bound(iTimePDclock);
+      // auto itrthis = timePDclockSDPs.lower_bound(iTimePDclock);
+      auto itrthis = findClosestTimePDclockSDP(iTimePDclock);
+
       // pick which SDP list we have to fill: new one or existing one
       std::vector<sim::SDP>* curSDPVec;
       if (itrthis == timePDclockSDPs.end() || itrthis->first != iTimePDclock) {
-        curSDPVec =
-          &(timePDclockSDPs.insert({iTimePDclock, std::vector<sim::SDP>()}).first->second);
+        timePDclockSDPs.emplace_back(iTimePDclock, std::vector<sim::SDP>());
+        curSDPVec = &(timePDclockSDPs.back().second);
+        // curSDPVec =
+        //   &(timePDclockSDPs.insert({iTimePDclock, std::vector<sim::SDP>()}).first->second);
       }
       else
         curSDPVec = &(itrthis->second);
@@ -292,4 +383,40 @@ namespace sim {
 
     return range_trackID;
   }
+
+  //-------------------------------------------------
+  struct OpDetBacktrackerRecord::CompareByTimePDclock {
+
+    bool operator()(timePDclockSDP_t const& a, timePDclockSDP_t const& b) const
+    {
+      return a.first < b.first;
+    }
+
+    bool operator()(storedTimePDclock_t a_TimePDclock, timePDclockSDP_t const& b) const
+    {
+      return a_TimePDclock < b.first;
+    }
+
+    bool operator()(timePDclockSDP_t const& a, storedTimePDclock_t b_TimePDclock) const
+    {
+      return a.first < b_TimePDclock;
+    }
+
+  }; // struct CompareByTimePDclock
+
+  OpDetBacktrackerRecord::timePDclockSDPs_t::iterator
+  OpDetBacktrackerRecord::findClosestTimePDclockSDP(storedTimePDclock_t iTimePDclock)
+  {
+    return std::lower_bound(
+      timePDclockSDPs.begin(), timePDclockSDPs.end(), iTimePDclock, CompareByTimePDclock());
+  }
+
+  OpDetBacktrackerRecord::timePDclockSDPs_t::const_iterator
+  OpDetBacktrackerRecord::findClosestTimePDclockSDP(storedTimePDclock_t TimePDclock) const
+  {
+    return std::lower_bound(
+      timePDclockSDPs.begin(), timePDclockSDPs.end(), TimePDclock, CompareByTimePDclock());
+  }
+
+  //-------------------------------------------------
 }

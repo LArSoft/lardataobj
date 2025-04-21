@@ -83,7 +83,29 @@ namespace sim {
   };                   // struct SDP
 
   /// List of energy deposits at the same time (on this Optical Detector)
-  typedef std::pair<int, std::vector<sim::SDP>> timePDclockSDP_t;
+  typedef std::pair<double, std::vector<sim::SDP>> timePDclockSDP_t;
+
+  class OBTRHelper {
+    friend class OpDetBacktrackerRecord;
+
+  public:
+    typedef double timePDclock_t;
+    typedef SDP::TrackID_t TrackID_t;
+
+    OBTRHelper(TrackID_t trackID) : fTrackID(trackID) {}
+
+    void AddScintillationPhotonsToMap(
+      // std::map<timePDclock_t, std::vector<sim::SDP>> & timePDclockSDPs,
+      TrackID_t trackID,
+      timePDclock_t iTimePDclock,
+      double numberPhotons,
+      double const* xyz,
+      double energy);
+
+  private:
+    std::map<timePDclock_t, std::vector<sim::SDP>> fTimePDclockSDPs;
+    TrackID_t fTrackID;
+  };
 
   /**
    * @brief Energy deposited on a readout Optical Detector by simulated tracks
@@ -108,8 +130,8 @@ namespace sim {
     typedef timePDclockSDP_t::first_type storedTimePDclock_t;
 
     /// Type of list of energy deposits for each timePDclock with signal
-    // typedef std::vector<timePDclockSDP_t> timePDclockSDPs_t;
-    typedef std::map<storedTimePDclock_t, std::vector<sim::SDP>> timePDclockSDPs_t;
+    typedef std::vector<timePDclockSDP_t> timePDclockSDPs_t;
+    // typedef std::map<storedTimePDclock_t, std::vector<sim::SDP>> timePDclockSDPs_t;
 
   private:
     int iOpDetNum;                     ///< OpticalDetector where the photons were detected
@@ -128,6 +150,8 @@ namespace sim {
 
     /// Constructor: immediately sets the Optical Detector number
     explicit OpDetBacktrackerRecord(int detNum);
+
+    explicit OpDetBacktrackerRecord(OBTRHelper& helper);
 
     /**
      * @brief Add scintillation photons and energy to this OpticalDetector
@@ -266,6 +290,17 @@ namespace sim {
     {
       Dump(std::forward<Stream>(out), indent, indent);
     }
+
+  private:
+    /// Comparison functor, sorts by increasing timePDclocktick value
+    struct CompareByTimePDclock;
+
+    /// Return the iterator to the first timePDclockSDP not earlier than timePDclock
+    timePDclockSDPs_t::iterator findClosestTimePDclockSDP(storedTimePDclock_t timePDclock);
+
+    /// Return the (constant) iterator to the first timePDclockSDP not earlier than timePDclock
+    timePDclockSDPs_t::const_iterator findClosestTimePDclockSDP(
+      storedTimePDclock_t timePDclock) const;
   };
 
 } // namespace sim
