@@ -70,6 +70,7 @@
   <version ClassVersion="10" checksum="2225942541"/>
  </class>
  <class name="sim::OpDetBacktrackerRecord" ClassVersion="11">
+  <version ClassVersion="12" checksum="1589953796"/>
   <version ClassVersion="11" checksum="1336777815"/>
   <version ClassVersion="10" checksum="2389124613"/>
  </class>
