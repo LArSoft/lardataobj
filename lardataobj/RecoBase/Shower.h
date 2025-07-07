@@ -23,10 +23,10 @@ namespace recob {
 
   private:
     int fID;
-    TVector3 fDCosStart;                   ///< direction cosines at start of shower
-    TVector3 fSigmaDCosStart;              ///< uncertainty on initial direction cosines
-    TVector3 fXYZstart;                    ///< direction cosines at start of shower
-    TVector3 fSigmaXYZstart;               ///< uncertainty on initial direction cosines
+    TVector3 fDCosStart;                   ///< Direction cosines at start of shower
+    TVector3 fSigmaDCosStart;              ///< Uncertainty on initial direction cosines
+    TVector3 fXYZstart;                    ///< Start point of shower
+    TVector3 fSigmaXYZstart;               ///< Uncertainty on start point of shower
     std::vector<double> fTotalEnergy;      ///< Calculated Energy per each plane
     std::vector<double> fSigmaTotalEnergy; ///< Calculated Energy per each plane
     std::vector<double> fdEdx;             ///< Calculated dE/dx per each plane
