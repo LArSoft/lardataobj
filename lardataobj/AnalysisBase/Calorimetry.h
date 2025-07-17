@@ -33,6 +33,8 @@ namespace anab {
     std::vector<Point_t>
       fXYZ; ///< coordinates of space points; for a discussion on the object type for coordinates see recob::tracking::Coord_t.
     std::vector<size_t> fTpIndices; ///< indices of original trajectory points on track
+    std::vector<float> fEfield; ///< E-field strength used for calorimetry
+    std::vector<float> fPhi; ///< track angle at each hit w.r.t. E-field, in degree
 
   private:
     geo::PlaneID fPlaneID;
@@ -77,6 +79,19 @@ namespace anab {
                 std::vector<size_t> const& TpIndices,
                 geo::PlaneID planeID);
 
+    Calorimetry(float KineticEnergy,
+                std::vector<float> const& dEdx,
+                std::vector<float> const& dQdx,
+                std::vector<float> const& resRange,
+                std::vector<float> const& deadwire,
+                float Range,
+                std::vector<float> const& TrkPitch,
+                std::vector<Point_t> const& XYZ,
+                std::vector<size_t> const& TpIndices,
+                geo::PlaneID planeID,
+		std::vector<float> const& Efield,
+                std::vector<float> const& Phi);
+
     friend std::ostream& operator<<(std::ostream& o, Calorimetry const& a);
 
     const std::vector<float>& dEdx() const;
@@ -90,6 +105,8 @@ namespace anab {
     const std::vector<Point_t>& XYZ() const;
     const std::vector<size_t>& TpIndices() const;
     const geo::PlaneID& PlaneID() const;
+    const std::vector<float>& Efield() const;
+    const std::vector<float>& Phi() const;
   };
 
 }
@@ -140,6 +157,14 @@ inline const std::vector<size_t>& anab::Calorimetry::TpIndices() const
 inline const geo::PlaneID& anab::Calorimetry::PlaneID() const
 {
   return fPlaneID;
+}
+inline const std::vector<float>& anab::Calorimetry::Efield() const
+{
+  return fEfield;
+}
+inline const std::vector<float>& anab::Calorimetry::Phi() const
+{
+  return fPhi;
 }
 
 #endif //ANAB_CALORIMETRY_H

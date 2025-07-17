@@ -99,7 +99,8 @@
  <enum name="anab::kVariableType"/>
  <enum name="anab::kTrackDir"/>
 
- <class name="anab::Calorimetry"           ClassVersion="17"                           >
+ <class name="anab::Calorimetry"           ClassVersion="18"                           >
+  <version ClassVersion="18" checksum="184829381"/>
   <version ClassVersion="17" checksum="836686545"/>
   <version ClassVersion="16" checksum="2995599306"/>
   <version ClassVersion="15" checksum="2095251371"/>
