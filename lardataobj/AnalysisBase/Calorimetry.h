@@ -33,8 +33,8 @@ namespace anab {
     std::vector<Point_t>
       fXYZ; ///< coordinates of space points; for a discussion on the object type for coordinates see recob::tracking::Coord_t.
     std::vector<size_t> fTpIndices; ///< indices of original trajectory points on track
-    std::vector<float> fEfield; ///< E-field strength used for calorimetry
-    std::vector<float> fPhi; ///< track angle at each hit w.r.t. E-field, in degree
+    std::vector<float> fEfield;     ///< E-field strength used for calorimetry
+    std::vector<float> fPhi;        ///< track angle at each hit w.r.t. E-field, in degree
 
   private:
     geo::PlaneID fPlaneID;
@@ -89,7 +89,7 @@ namespace anab {
                 std::vector<Point_t> const& XYZ,
                 std::vector<size_t> const& TpIndices,
                 geo::PlaneID planeID,
-		std::vector<float> const& Efield,
+                std::vector<float> const& Efield,
                 std::vector<float> const& Phi);
 
     friend std::ostream& operator<<(std::ostream& o, Calorimetry const& a);
