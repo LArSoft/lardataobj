@@ -59,7 +59,7 @@ namespace recob {
     float
       fSigmaPeakAmplitude; ///< uncertainty on estimated amplitude of the hit at its peak, in ADC units
     float fROISummedADC; ///< the sum of calibrated ADC counts of the ROI
-    float fHitSummedADC; ///< the sum of calibrated ADC counts of the ROI
+    float fHitSummedADC; ///< the sum of calibrated ADC counts of the hit
     float
       fIntegral; ///< the integral under the calibrated signal waveform of the hit, in tick x ADC units
     float
