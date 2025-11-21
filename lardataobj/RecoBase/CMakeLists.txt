@@ -1,8 +1,7 @@
 cet_make_library(LIBRARY_NAME TrackingTypes INTERFACE
   SOURCE TrackingTypes.h
   LIBRARIES INTERFACE
-  larcorealg::Geometry
-  larcorealg::geo_vectors_utils
+  larcoreobj::geo_vectors
   ROOT::GenVector
   ROOT::Matrix
   ROOT::Physics
