@@ -115,10 +115,7 @@ namespace sim {
     double EndT() const { return endTime; }
 
     // Step mid-point.
-    geo::Point_t MidPoint() const
-    {
-      return startPos + 0.5 * (endPos - startPos);
-    }
+    geo::Point_t MidPoint() const { return startPos + 0.5 * (endPos - startPos); }
     geo::Length_t MidPointX() const { return (startPos.X() + endPos.X()) / 2.; }
     geo::Length_t MidPointY() const { return (startPos.Y() + endPos.Y()) / 2.; }
     geo::Length_t MidPointZ() const { return (startPos.Z() + endPos.Z()) / 2.; }

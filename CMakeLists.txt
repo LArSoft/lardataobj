@@ -34,7 +34,6 @@ find_package(Boost REQUIRED EXPORT)
 find_package(ROOT COMPONENTS Core GenVector MathCore Matrix Physics REQUIRED EXPORT)
 
 find_package(larcoreobj REQUIRED EXPORT)
-find_package(larcorealg REQUIRED EXPORT)
 
 include(BuildDictionary)
 
