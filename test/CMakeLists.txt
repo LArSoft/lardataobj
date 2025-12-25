@@ -10,6 +10,7 @@ cet_enable_asserts()
 
 add_subdirectory( RawData )
 add_subdirectory( RecoBase )
+add_subdirectory( Simulation )
 add_subdirectory( Utilities )
 
 # these tests run a FCL file and fail only if lar exits with a bad exit code;
