@@ -7,6 +7,7 @@ namespace {
   {
     cet::search_path const sp{"FW_SEARCH_PATH", std::nothrow};
     if (std::string filename; sp.find_file("simIDE_streamer_info.root", filename)) {
+      TDirectory::TContext cx;
       TFile file{filename.c_str()};
       return 0;
     }
