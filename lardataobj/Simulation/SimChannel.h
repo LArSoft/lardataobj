@@ -142,6 +142,15 @@ namespace sim {
     typedef std::vector<TDCIDE> TDCIDEs_t;
 
   private:
+    /// Temporary opaque replacement for `std::span<TDCIDE>`.
+    /// @todo Directly replace with `std::span<TDCIDE>` with C++20.
+    struct TDCIDEspan_t {
+      typedef TDCIDEs_t::const_iterator iterator;
+      iterator b, e;
+      iterator begin() const noexcept { return b; }
+      iterator end() const noexcept { return e; }
+    };
+
     raw::ChannelID_t fChannel; ///< readout channel where electrons are collected
     TDCIDEs_t fTDCIDEs;        ///< list of energy deposits for each TDC with signal
 
@@ -156,6 +165,9 @@ namespace sim {
 
     /// Type of track ID (the value comes from Geant4)
     typedef IDE::TrackID_t TrackID_t;
+
+    /// Type of iterator to a `sim::TDCIDE`.
+    using TDCIDEIter_t = TDCIDEs_t::const_iterator;
 
     /// Constructor: immediately sets the channel number
     explicit SimChannel(raw::ChannelID_t channel);
@@ -213,6 +225,45 @@ namespace sim {
      * content.
      */
     TDCIDEs_t const& TDCIDEMap() const;
+
+    /**
+     * @brief Returns iterators to first-and past-last `TDCIDE` in tick interval.
+     * @param from tick of the time interval start
+     * @param to tick of the time interval end
+     * @return iterator span between first `TDCIDE` no earlier than `from` and than `to`
+     *
+     * The returned value supports data members:
+     *  * `begin()`: iterator to the first `sim::TDCIDE` at or after tick `from`
+     *  * `end()`: iterator to the first `sim::TDCIDE` at or after tick `to`
+     *
+     * Example of usage:
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+     * double chargeBetween(sim::SimChannel const& sc, int start, int ticks) {
+     *   double charge = 0.0;
+     *   for (sim::TDCIDE const& TDCIDE: sc.IDEsBetween(start, start + ticks)) {
+     *     for (sim::IDE const& ide: TDCIDE.second)
+     *       charge += ide.numElectrons;
+     *   }
+     *   return charge;
+     * }
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     * All `sim::TDCIDE` in the returned span have TPC tick at `from` or after,
+     * and strictly before `to`.
+     */
+    auto IDEsBetween(TDC_t from, TDC_t to) const;
+
+    /**
+     * @brief Returns the first `sim::TDCIDE` at or after the specified `tick`.
+     * @param tick a TDC tick number
+     * @return pointer to the first `sim::TDCIDE`, or `nullptr` if none
+     *
+     * The returned `sim::TDCIDE` is the first at TDC value `tick` or after it.
+     * It is therefore not guaranteed that the returned IDE are _exactly_ at
+     * `tick`.
+     * If `tick` is larger than the last tick in the object, `nullptr` is
+     * returned.
+     */
+    sim::TDCIDE const* findIDEatTime(TDC_t tick) const;
 
     /// Returns the total number of ionization electrons on this channel in the specified TDC
     double Charge(TDC_t tdc) const;
@@ -319,6 +370,15 @@ inline bool sim::SimChannel::operator==(const sim::SimChannel& other) const
 inline sim::SimChannel::TDCIDEs_t const& sim::SimChannel::TDCIDEMap() const
 {
   return fTDCIDEs;
+}
+inline auto sim::SimChannel::IDEsBetween(TDC_t from, TDC_t to) const
+{
+  return TDCIDEspan_t{findClosestTDCIDE(from), findClosestTDCIDE(to)};
+}
+inline sim::TDCIDE const* sim::SimChannel::findIDEatTime(TDC_t tick) const
+{
+  auto const it = findClosestTDCIDE(tick);
+  return (it == TDCIDEMap().end()) ? nullptr : &*it;
 }
 inline raw::ChannelID_t sim::SimChannel::Channel() const
 {
