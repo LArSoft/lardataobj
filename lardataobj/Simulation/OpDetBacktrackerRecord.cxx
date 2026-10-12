@@ -116,6 +116,23 @@ namespace sim {
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum) : iOpDetNum(detNum) {}
 
   //-------------------------------------------------
+  OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum, timePDclockSDPs_t&& sdps)
+    : iOpDetNum(detNum), timePDclockSDPs(std::move(sdpb))
+  {
+    // Check that all input SDPs conform to OBTR helper output:
+    // - Sorted increasing in time
+    // - time is an integer
+    // - no empty values..
+    if (false) {
+      MF_LOG_ERROR("OpDetBacktrackerRecord")
+        << "AddTrackPhotons() trying to add to iTimePDclock #" << iTimePDclock << " "
+        << numberPhotons << " photons with " << energy
+        << " MeV of energy from track ID=" << trackID;
+      return;
+    }
+  }
+
+  //-------------------------------------------------
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(OBTRHelper& helper) : iOpDetNum(helper.fTrackID)
   {
     auto& sdp_map = helper.fTimePDclockSDPs;

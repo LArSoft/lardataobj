@@ -80,7 +80,7 @@ namespace sim {
     float x;           ///< x position of ionization [cm]
     float y;           ///< y position of ionization [cm]
     float z;           ///< z position of ionization [cm]
-  };                   // struct SDP
+  }; // struct SDP
 
   /// List of energy deposits at the same time (on this Optical Detector)
   typedef std::pair<double, std::vector<sim::SDP>> timePDclockSDP_t;
@@ -103,6 +103,7 @@ namespace sim {
       double energy);
 
   private:
+    // FUTURE WORK: all key values (double) should actually be integers
     std::map<timePDclock_t, std::vector<sim::SDP>> fTimePDclockSDPs;
     TrackID_t fTrackID;
   };
@@ -151,6 +152,10 @@ namespace sim {
     /// Constructor: immediately sets the Optical Detector number
     explicit OpDetBacktrackerRecord(int detNum);
 
+    // Construct in a completed and valid state from sorted, externally binned data
+    OpDetBacktrackerRecord(int opDetNum, timePDclockSDPs_t&& sdps);
+
+    // FUTURE: should be &&
     explicit OpDetBacktrackerRecord(OBTRHelper& helper);
 
     /**
