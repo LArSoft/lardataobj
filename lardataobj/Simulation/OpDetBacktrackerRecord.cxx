@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include <algorithm> // std::lower_bound(), std::max()
-#include <cmath> // std::isfinite(), std::trunc()
+#include <cmath>     // std::isfinite(), std::trunc()
 #include <iostream>
 #include <limits> // std::numeric_limits
 #include <map>
