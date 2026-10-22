@@ -117,46 +117,43 @@ namespace sim {
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum) : iOpDetNum(detNum) {}
 
   //-------------------------------------------------
+  /**
+   * Construct in a completed and valid state from sorted, externally binned data.
+   */
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum, timePDclockSDPs_t&& sdps)
     : iOpDetNum(detNum), timePDclockSDPs(std::move(sdps))
   {
-    // Check that all input SDPs conform to OBTR helper output:
-    // - Sorted increasing in time
-    // - time is an integer
-    // - no empty values..
-    storedTimePDclock_t previousTime{};
-    bool hasPreviousTime = false;
+    storedTimePDclock_t previousTime{-std::numeric_limits<timePDclock_t>::infinity()};
     std::size_t entry = 0;
-    for (auto const& [time, deposits] : timePDclockSDPs) {
-      if (!std::isfinite(time) || std::trunc(time) != time) {
+    for (auto& [time, deposits] : timePDclockSDPs) {
+      if (std::trunc(time) != time) {
         MF_LOG_ERROR("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
           << " (time " << time
-          << "): time values must be finite integers; discarding invalid input";
-        timePDclockSDPs.clear();
-        return;
+          << "): time values must be integers; discarding invalid input";
+        deposits.clear();
       }
-      if (hasPreviousTime && time <= previousTime) {
+      else if (!(time > previousTime)) {
         MF_LOG_ERROR("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
           << " (time " << time << " follows " << previousTime
           << "): time values must be strictly increasing; discarding invalid input";
-        timePDclockSDPs.clear();
-        return;
+        deposits.clear();
       }
-      if (deposits.empty()) {
-        MF_LOG_ERROR("OpDetBacktrackerRecord")
+      else if (deposits.empty()) {
+        MF_LOG_WARNING("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
           << " (time " << time << ")"
-          << " which follows time " << previousTime
-          << ": cannot contain an empty deposit list; discarding invalid input";
-        timePDclockSDPs.clear();
-        return;
+          << ": discarding empty deposit list";
       }
       previousTime = time;
-      hasPreviousTime = true;
       ++entry;
     }
+    // Discard empty deposits
+    timePDclockSDPs.erase(
+      std::remove_if(deposits.begin(), deposits.end(), [](timePDclockSDP_t const& time_deposits) {
+        return time_deposits.second().empty();
+      }));
   }
 
   //-------------------------------------------------

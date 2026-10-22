@@ -115,9 +115,9 @@ namespace sim {
    * they originated from. This class also tracks the energy deposited by those tracks, and what fraction of the
    * energy deposited is realted to the photons detected by this OpDet.
    *
-   * The information is organized by time: it is divided by timePDclock ticks (units of ns), and
+   * The information is organized by rounded time: it is divided by timePDclock ticks (units of ns), and
    * each timePDclock tick where some energy was deposited appears in a separate entry,
-   * while the quiet timePDclock ticks are omitted.
+   * while the quiet timePDclock ticks are omitted. Negative time \em is allowed.
    * For each timePDclock, the information is stored as a list of energy deposits;
    * each deposit comes from a single Geant4 track and stores the location where
    * the ionization happened according to the simulation (see `sim::SDP` class).
@@ -155,7 +155,7 @@ namespace sim {
     // Construct in a completed and valid state from sorted, externally binned data
     OpDetBacktrackerRecord(int opDetNum, timePDclockSDPs_t&& sdps);
 
-    // FUTURE: should be &&
+    // Move all data from the BTR helper into this record
     explicit OpDetBacktrackerRecord(OBTRHelper& helper);
 
     /**
