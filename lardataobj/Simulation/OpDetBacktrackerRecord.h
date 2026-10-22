@@ -80,7 +80,7 @@ namespace sim {
     float x;           ///< x position of ionization [cm]
     float y;           ///< y position of ionization [cm]
     float z;           ///< z position of ionization [cm]
-  }; // struct SDP
+  };                   // struct SDP
 
   /// List of energy deposits at the same time (on this Optical Detector)
   typedef std::pair<double, std::vector<sim::SDP>> timePDclockSDP_t;
