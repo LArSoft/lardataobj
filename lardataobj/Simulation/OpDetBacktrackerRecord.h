@@ -111,12 +111,14 @@ namespace sim {
   /**
    * @brief Energy deposited on a readout Optical Detector by simulated tracks
    *
-   * This class stores a time organized list of scintillation photons detected connected to the G4 tracks
-   * they originated from. This class also tracks the energy deposited by those tracks, and what fraction of the
-   * energy deposited is realted to the photons detected by this OpDet.
+   * This class stores a time organized list of scintillation photons detected connected to
+   * the G4 tracks they originated from.
+   * This class also tracks the energy deposited by those tracks, and what fraction of
+   * the energy deposited is realted to the photons detected by this OpDet.
    *
-   * The information is organized by rounded time: it is divided by timePDclock ticks (units of ns), and
-   * each timePDclock tick where some energy was deposited appears in a separate entry,
+   * The information is organized by rounded time: it is divided by timePDclock ticks
+   * (units of ns), and each timePDclock tick where some energy was deposited appears
+   * in a separate entry,
    * while the quiet timePDclock ticks are omitted. Negative time \em is allowed.
    * For each timePDclock, the information is stored as a list of energy deposits;
    * each deposit comes from a single Geant4 track and stores the location where

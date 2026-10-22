@@ -129,8 +129,7 @@ namespace sim {
       if (std::trunc(time) != time) {
         MF_LOG_ERROR("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
-          << " (time " << time
-          << "): time values must be integers; discarding invalid input";
+          << " (time " << time << "): time values must be integers; discarding invalid input";
         deposits.clear();
       }
       else if (!(time > previousTime)) {
