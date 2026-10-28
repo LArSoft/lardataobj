@@ -125,34 +125,41 @@ namespace sim {
   {
     storedTimePDclock_t previousTime{-std::numeric_limits<timePDclock_t>::infinity()};
     std::size_t entry = 0;
-    for (auto& [time, deposits] : timePDclockSDPs) {
-      if (std::trunc(time) != time) {
+    auto it = timePDclockSDPs.begin();
+    while (it != timePDclockSDPs.end()) {
+      auto const& [time, deposits] = *it;
+      bool valid = true;
+      if (!std::isfinite(time) || std::trunc(time) != time) {
         MF_LOG_ERROR("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
-          << " (time " << time << "): time values must be integers; discarding invalid input";
-        deposits.clear();
+          << " (time " << time
+          << "): time values must be finite integers; discarding invalid input";
+        valid = false;
       }
       else if (!(time > previousTime)) {
         MF_LOG_ERROR("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
           << " (time " << time << " follows " << previousTime
           << "): time values must be strictly increasing; discarding invalid input";
-        deposits.clear();
+        valid = false;
       }
       else if (deposits.empty()) {
         MF_LOG_WARNING("OpDetBacktrackerRecord")
           << "while constructing record for optical detector " << detNum << ", entry " << entry
           << " (time " << time << ")"
           << ": discarding empty deposit list";
+        valid = false;
       }
-      previousTime = time;
+
+      if (valid) {
+        previousTime = time;
+        ++it;
+      }
+      else {
+        it = timePDclockSDPs.erase(it);
+      }
       ++entry;
     }
-    // Discard empty deposits
-    timePDclockSDPs.erase(
-      std::remove_if(deposits.begin(), deposits.end(), [](timePDclockSDP_t const& time_deposits) {
-        return time_deposits.second().empty();
-      }));
   }
 
   //-------------------------------------------------
