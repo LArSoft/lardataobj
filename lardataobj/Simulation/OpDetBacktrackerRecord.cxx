@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include <algorithm> // std::lower_bound(), std::max()
+#include <cmath>     // std::isfinite(), std::trunc()
 #include <iostream>
 #include <limits> // std::numeric_limits
 #include <map>
@@ -114,6 +115,52 @@ namespace sim {
 
   //-------------------------------------------------
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum) : iOpDetNum(detNum) {}
+
+  //-------------------------------------------------
+  /**
+   * Construct in a completed and valid state from sorted, externally binned data.
+   */
+  OpDetBacktrackerRecord::OpDetBacktrackerRecord(int detNum, timePDclockSDPs_t&& sdps)
+    : iOpDetNum(detNum), timePDclockSDPs(std::move(sdps))
+  {
+    storedTimePDclock_t previousTime{-std::numeric_limits<timePDclock_t>::infinity()};
+    std::size_t entry = 0;
+    auto it = timePDclockSDPs.begin();
+    while (it != timePDclockSDPs.end()) {
+      auto const& [time, deposits] = *it;
+      bool valid = true;
+      if (!std::isfinite(time) || std::trunc(time) != time) {
+        MF_LOG_ERROR("OpDetBacktrackerRecord")
+          << "while constructing record for optical detector " << detNum << ", entry " << entry
+          << " (time " << time
+          << "): time values must be finite integers; discarding invalid input";
+        valid = false;
+      }
+      else if (!(time > previousTime)) {
+        MF_LOG_ERROR("OpDetBacktrackerRecord")
+          << "while constructing record for optical detector " << detNum << ", entry " << entry
+          << " (time " << time << " follows " << previousTime
+          << "): time values must be strictly increasing; discarding invalid input";
+        valid = false;
+      }
+      else if (deposits.empty()) {
+        MF_LOG_WARNING("OpDetBacktrackerRecord")
+          << "while constructing record for optical detector " << detNum << ", entry " << entry
+          << " (time " << time << ")"
+          << ": discarding empty deposit list";
+        valid = false;
+      }
+
+      if (valid) {
+        previousTime = time;
+        ++it;
+      }
+      else {
+        it = timePDclockSDPs.erase(it);
+      }
+      ++entry;
+    }
+  }
 
   //-------------------------------------------------
   OpDetBacktrackerRecord::OpDetBacktrackerRecord(OBTRHelper& helper) : iOpDetNum(helper.fTrackID)
